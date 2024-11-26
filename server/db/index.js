@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const databaseName = 'cohort-tools api'
+const databaseName = 'cohort-tools-api'
 const connectionString = `mongodb://localhost/${databaseName}`
 mongoose
     .connect(connectionString)

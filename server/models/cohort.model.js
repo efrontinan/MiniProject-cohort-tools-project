@@ -6,11 +6,12 @@ const cohortSchema = mongoose.Schema({
     cohortName: String,
     program: String,
     campus: String,
-    startDate: String,
-    endDate: String,
+    startDate: Date,
+    endDate: Date,
     programManager: String,
     leadTeacher: String,
-    totalHours: Array
+    totalHours: Number,
+    format: String
 
 })
 const Cohort = mongoose.model('cohort', cohortSchema)
