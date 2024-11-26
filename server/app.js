@@ -8,7 +8,7 @@ const PORT = 5005
 const app = express()
 app.use(
     cors(
-        { origin: ['http://localhost:5005', 'http:/5005.com'] }
+        { origin: ['http://localhost:5173'] }
     )
 )
 // Configuración
