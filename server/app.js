@@ -1,6 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require("cors")
+const {errorHandler, notFoundHandler} = require('./middleware/error-handling')
 const PORT = 5005
 
 //Instancia de la app
@@ -22,6 +23,9 @@ app.use(express.json())
 // Creación de endpoints
 
 require('./routes')(app)
+app.use(notFoundHandler)
+app.use(errorHandler)
+
 
 // const routesFunction = require('./routes')
 // routesFunction(app)

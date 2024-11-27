@@ -5,17 +5,19 @@ module.exports = app => {
 
     //cohorts routes
 
-    app.get('/api/cohorts', (req, res) => {
+    app.get('/api/cohorts', (req, res, next) => {
 
         Cohort
             .find()
             .then(cohorts => res.json(cohorts))
-            .catch(err => res.status(500).json({message: 'Server error', error: err}))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.post('/api/cohorts', (req, res) => {
+    app.post('/api/cohorts', (req, res, next) => {
 
         const {
             inProgress,
@@ -46,49 +48,57 @@ module.exports = app => {
                 format
             })
             .then(createdCohort => res.json(createdCohort))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.get('/api/cohorts/:cohortId', (req, res) => {
+    app.get('/api/cohorts/:cohortId', (req, res, next) => {
 
         const { cohortId } = req.params
 
         Cohort
             .findById(`${cohortId}`)
             .then(cohort => res.json(cohort))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.delete('/api/cohorts/:cohortId', (req, res) => {
+    app.delete('/api/cohorts/:cohortId', (req, res, next) => {
 
         const { cohortId } = req.params
 
         Cohort
             .findByIdAndDelete(`${cohortId}`)
             .then(removeCohort => res.json(removeCohort))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.put('/api/cohorts/:cohortId', (req, res) => {
+    app.put('/api/cohorts/:cohortId', (req, res, next) => {
 
         const { cohortId } = req.params
 
         Cohort
             .findByIdAndUpdate(`${cohortId}`, req.body)
             .then(cohort => res.json(cohort))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
     //Students routes
 
-    app.get('/api/students', (req, res) => {
+    app.get('/api/students', (req, res, next) => {
 
         Student
             .find()
@@ -96,12 +106,14 @@ module.exports = app => {
             .select({ image: 1, program: 1, firstName: 1, email: 1, phone: 1 })
             .populate('cohort') //nombre del campo a popular
             .then(students => res.json(students))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.post('/api/students', (req, res) => {
+    app.post('/api/students', (req, res, next) => {
         const {
             firstName,
             lastName,
@@ -131,12 +143,13 @@ module.exports = app => {
                 projects
             })
             .then(createdStudent => res.json(createdStudent))
-            .catch(err => console.log(err))
-
+            .catch(err => {
+                next(err)
+            })
     })
 
 
-    app.get('/api/students/:studentId', (req, res) => {
+    app.get('/api/students/:studentId', (req, res, next) => {
 
         const { studentId } = req.params
 
@@ -144,51 +157,52 @@ module.exports = app => {
             .findById(studentId)
             .populate('cohort')
             .then(student => res.json(student))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.delete('/api/students/:studentId', (req, res) => {
+    app.delete('/api/students/:studentId', (req, res, next) => {
 
         const { studentId } = req.params
 
         Student
             .findByIdAndDelete(studentId)
             .then(removeStudent => res.json(removeStudent))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.put('/api/students/:studentId', (req, res) => {
+    app.put('/api/students/:studentId', (req, res, next) => {
 
         const { studentId } = req.params
 
         Student
             .findByIdAndUpdate(studentId, req.body)
             .then(student => res.json(student))
-            .catch(err => console.log(err))
-
+            .catch(err => {
+                next(err)
+            })
 
     })
 
 
-    app.get('/api/students/cohort/:cohortId', (req, res) => {
+    app.get('/api/students/cohort/:cohortId', (req, res, next) => {
 
         const { cohortId } = req.params
 
         Student
             .find({ cohort: cohortId })
             .then(cohort => res.json(cohort))
-            .catch(err => console.log(err))
+            .catch(err => {
+                next(err)
+            })
 
     })
 
-
-    app.get('/*', (req, res) => {
-
-        res.sendStatus(404)
-
-    })
 }
